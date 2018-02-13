@@ -1,5 +1,9 @@
 'use strict';
 
+var LOCATION_START_X = 300;
+var LOCATION_START_Y = 150;
+var LOCATION_END_X_Y = 500;
+
 var TITLE = [
   'Большая уютная квартира',
   'Маленькая неуютная квартира',
@@ -71,8 +75,8 @@ var getRandomNumber = function (min, max) {
 var getGenerateDataArticle = function (quantity) {
   var articles = [];
   for (var i = 0; i < quantity; i++) {
-    var locationX = getRandomNumber(300, 500);
-    var locationY = getRandomNumber(150, 500);
+    var locationX = getRandomNumber(LOCATION_START_X, LOCATION_END_X_Y);
+    var locationY = getRandomNumber(LOCATION_START_Y, LOCATION_END_X_Y);
 
     articles.push({
       'author': {
