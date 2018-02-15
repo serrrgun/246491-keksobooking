@@ -164,8 +164,8 @@ var mainPin = document.querySelector('.map__pin--main');
  */
 var getDisabledFieldset = function () {
   var noticeFormFieldset = document.querySelectorAll('form__element');
-  for (var i = 0; i < noticeFormFieldset.length; i++) {
-    noticeFormFieldset[i].setAttribute('disabled', '');
+  for (var k = 0; k < noticeFormFieldset.length; k++) {
+    noticeFormFieldset[k].setAttribute('disabled', '');
   }
 };
 
@@ -176,8 +176,8 @@ getDisabledFieldset();
  */
 var getEnebledFieldset = function () {
   var noticeFormFieldset = document.querySelectorAll('.form__element');
-  for (var i = 0; i < noticeFormFieldset.length; i++) {
-    noticeFormFieldset[i].removeAttribute('disabled', '');
+  for (var j = 0; j < noticeFormFieldset.length; j++) {
+    noticeFormFieldset[j].removeAttribute('disabled', '');
   }
 };
 
