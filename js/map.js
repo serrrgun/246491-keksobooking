@@ -1,5 +1,9 @@
 'use strict';
 
+var LOCATION_START_X = 300;
+var LOCATION_START_Y = 150;
+var LOCATION_END_X_Y = 500;
+
 var TITLE = [
   'Большая уютная квартира',
   'Маленькая неуютная квартира',
@@ -71,8 +75,8 @@ var getRandomNumber = function (min, max) {
 var getGenerateDataArticle = function (quantity) {
   var articles = [];
   for (var i = 0; i < quantity; i++) {
-    var locationX = getRandomNumber(300, 500);
-    var locationY = getRandomNumber(150, 500);
+    var locationX = getRandomNumber(LOCATION_START_X, LOCATION_END_X_Y);
+    var locationY = getRandomNumber(LOCATION_START_Y, LOCATION_END_X_Y);
 
     articles.push({
       'author': {
@@ -102,9 +106,8 @@ var getGenerateDataArticle = function (quantity) {
 // Генерируем нужное количество объявлений
 var articles = getGenerateDataArticle(8);
 
-// Активируем курту
+// Нходим карту
 var map = document.querySelector('.map');
-map.classList.remove('map--faded');
 
 // Находим шаблон пина
 var temlateMapPin = document.querySelector('template').content.querySelector('.map__pin');
@@ -132,8 +135,6 @@ for (var i = 0; i < articles.length; i++) {
   fragmentMapPins.appendChild(createMapPins(articles[i]));
 }
 
-mapPins.appendChild(fragmentMapPins);
-
 var templateMapCard = document.querySelector('template').content.querySelector('.map__card');
 var cardElement = templateMapCard.cloneNode(true);
 
@@ -155,6 +156,86 @@ var createMapCard = function (variant) {
   document.querySelector('.map').insertBefore(cardElement, document.querySelector('.map__filters-container'));
 };
 
+var noticeForm = document.querySelector('.notice__form');
+var mainPin = document.querySelector('.map__pin--main');
 
-createMapCard(articles[0]);
+/**
+ * Функция добавляет элементам формы атрибут disabled
+ */
+var getDisabledFieldset = function () {
+  var noticeFormFieldset = document.querySelectorAll('form__element');
+  for (var k = 0; k < noticeFormFieldset.length; k++) {
+    noticeFormFieldset[k].setAttribute('disabled', '');
+  }
+};
 
+getDisabledFieldset();
+
+/**
+ * Функция удаляет атрибут disabled делая элементы формы активными
+ */
+var getEnebledFieldset = function () {
+  var noticeFormFieldset = document.querySelectorAll('.form__element');
+  for (var j = 0; j < noticeFormFieldset.length; j++) {
+    noticeFormFieldset[j].removeAttribute('disabled', '');
+  }
+};
+
+/**
+ * Функция отрисовки пина и соответствующего объявления
+ */
+var getMapCard = function () {
+  var pinList = document.querySelectorAll('.map__pin');
+  var pinArr = Array.prototype.slice.call(pinList);
+  pinArr.splice(0, 1);
+  pinArr[0].addEventListener('click', function () {
+    createMapCard(articles[0]);
+  });
+  pinArr[1].addEventListener('click', function () {
+    createMapCard(articles[1]);
+  });
+  pinArr[2].addEventListener('click', function () {
+    createMapCard(articles[2]);
+  });
+  pinArr[3].addEventListener('click', function () {
+    createMapCard(articles[3]);
+  });
+  pinArr[4].addEventListener('click', function () {
+    createMapCard(articles[4]);
+  });
+  pinArr[5].addEventListener('click', function () {
+    createMapCard(articles[5]);
+  });
+  pinArr[6].addEventListener('click', function () {
+    createMapCard(articles[6]);
+  });
+  pinArr[7].addEventListener('click', function () {
+    createMapCard(articles[7]);
+  });
+};
+
+var MAIN_PIN_WIDTH = 65 / 2;
+var MAIN_PIN_HEIGHT = 75;
+
+/**
+ * Функция определения координат пина создания объявления
+ * @return {string}
+ */
+var getMainPinPosition = function () {
+  var mainPinPosX = mainPin.offsetTop + MAIN_PIN_HEIGHT;
+  var mainPinPosY = mainPin.offsetLeft + MAIN_PIN_WIDTH;
+
+  return 'x: ' + mainPinPosX + ', ' + 'y: ' + mainPinPosY;
+};
+
+var addressInput = document.querySelector('#address');
+addressInput.value = getMainPinPosition();
+
+
+mainPin.addEventListener('mouseup', function () {
+  noticeForm.classList.remove('notice__form--disabled');
+  getEnebledFieldset();
+  mapPins.appendChild(fragmentMapPins);
+  map.classList.remove('map--faded');
+  getMapCard();
+});
