@@ -3,6 +3,7 @@
 var LOCATION_START_X = 300;
 var LOCATION_START_Y = 150;
 var LOCATION_END_X_Y = 500;
+var MAIN_PIN_HEIGHT = 75;
 
 var TITLE = [
   'Большая уютная квартира',
@@ -73,12 +74,12 @@ var getRandomNumber = function (min, max) {
  * @return {Array} articles - массив объектов
  */
 var getGenerateDataArticle = function (quantity) {
-  var articles = [];
+  var articlesAdd = [];
   for (var i = 0; i < quantity; i++) {
     var locationX = getRandomNumber(LOCATION_START_X, LOCATION_END_X_Y);
     var locationY = getRandomNumber(LOCATION_START_Y, LOCATION_END_X_Y);
 
-    articles.push({
+    articlesAdd.push({
       'author': {
         'avatar': 'img/avatars/user0' + (i + 1) + '.png'
       },
@@ -101,12 +102,12 @@ var getGenerateDataArticle = function (quantity) {
       }
     });
   }
-  return articles;
+  return articlesAdd;
 };
 // Генерируем нужное количество объявлений
 var articles = getGenerateDataArticle(8);
 
-// Нходим карту
+// Находим карту
 var map = document.querySelector('.map');
 
 // Находим шаблон пина
@@ -158,36 +159,32 @@ var createMapCard = function (variant) {
 
 var noticeForm = document.querySelector('.notice__form');
 var mainPin = document.querySelector('.map__pin--main');
-
 /**
- * Функция добавляет элементам формы атрибут disabled
+ * Функция добавляет или убирает элементам формы атрибут disabled
+ * @param {boolen} status - true или false
  */
-var getDisabledFieldset = function () {
+var getSwitchesDisabledFieldset = function (status) {
   var noticeFormFieldset = document.querySelectorAll('form__element');
   for (var k = 0; k < noticeFormFieldset.length; k++) {
-    noticeFormFieldset[k].setAttribute('disabled', '');
+    noticeFormFieldset[k].disabled = status;
   }
 };
 
-getDisabledFieldset();
-
-/**
- * Функция удаляет атрибут disabled делая элементы формы активными
- */
-var getEnebledFieldset = function () {
-  var noticeFormFieldset = document.querySelectorAll('.form__element');
-  for (var j = 0; j < noticeFormFieldset.length; j++) {
-    noticeFormFieldset[j].removeAttribute('disabled', '');
-  }
-};
+getSwitchesDisabledFieldset(true);
 
 /**
  * Функция отрисовки пина и соответствующего объявления
  */
 var getMapCard = function () {
-  var pinList = document.querySelectorAll('.map__pin');
+  var pinList = document.querySelectorAll('.map__pin:not(.map__pin--main)');
   var pinArr = Array.prototype.slice.call(pinList);
-  pinArr.splice(0, 1);
+  /*
+  for(var y = 0; y < pinArr.length; y++){
+    pinArr[y].addEventListener('click', function () {
+     createMapCard(articles[y]);
+    })
+  }
+  */
   pinArr[0].addEventListener('click', function () {
     createMapCard(articles[0]);
   });
@@ -214,16 +211,13 @@ var getMapCard = function () {
   });
 };
 
-var MAIN_PIN_WIDTH = 65 / 2;
-var MAIN_PIN_HEIGHT = 75;
-
 /**
  * Функция определения координат пина создания объявления
  * @return {string}
  */
 var getMainPinPosition = function () {
   var mainPinPosX = mainPin.offsetTop + MAIN_PIN_HEIGHT;
-  var mainPinPosY = mainPin.offsetLeft + MAIN_PIN_WIDTH;
+  var mainPinPosY = mainPin.offsetLeft;
 
   return 'x: ' + mainPinPosX + ', ' + 'y: ' + mainPinPosY;
 };
@@ -231,10 +225,9 @@ var getMainPinPosition = function () {
 var addressInput = document.querySelector('#address');
 addressInput.value = getMainPinPosition();
 
-
 mainPin.addEventListener('mouseup', function () {
   noticeForm.classList.remove('notice__form--disabled');
-  getEnebledFieldset();
+  getSwitchesDisabledFieldset(false);
   mapPins.appendChild(fragmentMapPins);
   map.classList.remove('map--faded');
   getMapCard();
