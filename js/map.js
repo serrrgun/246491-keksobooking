@@ -18,7 +18,7 @@
     BOTTOM: map.offsetTop + BOTTOM_LIMIT
   };
 
-  var getPisitionPin = function () {
+  var getPositionPin = function () {
     var PinX = mainPin.offsetLeft + MAIN_PIN_HEIGHT;
     var PinY = mainPin.offsetTop + Math.floor(MAIN_PIN_WIDTH / 2);
     addressInput.value = PinX + ', ' + PinY;
@@ -31,7 +31,7 @@
     document.querySelector('.map').classList.remove('map--faded');
     document.querySelector('.notice__form').classList.remove('notice__form--disabled');
     document.querySelector('.notice__form').elements.disabled = false;
-    getPisitionPin();
+    getPositionPin();
     var mapPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     for (var i = 0; i < mapPins.length; i++) {
       mapPins[i].style.display = 'block';
@@ -70,7 +70,7 @@
 
     var mainPinMouseUpHandler = function (upEvt) {
       upEvt.preventDefault();
-      getPisitionPin();
+      getPositionPin();
       document.removeEventListener('mousemove', mainPinMoveHandler);
       document.removeEventListener('mouseup', mainPinMouseUpHandler);
     };
