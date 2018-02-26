@@ -73,7 +73,7 @@
      */
     getGenerateDataArticle: function () {
       var articlesAdd = [];
-      for (var i = 0; i < window.data.QUANTITY_ADS_CARD; i++) {
+      for (var i = 0; i < window.data.QUANTITY_ADS_CARD; i++) { // используется еще в pin.js
         var location = {
           x: getRandomNumber(LOCATION_START_X, LOCATION_END_X),
           y: getRandomNumber(LOCATION_START_Y, LOCATION_END_Y)
