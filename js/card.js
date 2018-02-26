@@ -2,6 +2,7 @@
 
 (function () {
   var map = document.querySelector('.map');
+
   window.card = {
     /**
      * Создает объявление на основе данных из массива объектов и вставляет в DOM

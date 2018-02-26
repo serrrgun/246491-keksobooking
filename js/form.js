@@ -62,6 +62,7 @@
       syncTimesArrival(noticeTimeIn, evtChange);
     }
   };
+
   /**
    * Функция стилей сообщения об ошибке
    * @param {string} message - сообщение об ошибке
@@ -73,6 +74,7 @@
     inputField.style.border = '3px solid red';
     return inputField;
   };
+
   /**
    * Функция удаления сообщения об ошибке
    * @param {obj} inputField - поле формы
@@ -84,6 +86,9 @@
     return inputField;
   };
 
+  /**
+   *  Обработчик ошибки ввода заголовка
+   */
   var titleInvalidHandler = function () {
     if (noticeTitle.validity.valueMissing) {
       errorStyle('', noticeTitle);
@@ -96,6 +101,10 @@
     }
   };
 
+  /**
+   * Обработчик проверки типа и стоимости
+   * @return {obj} noticePrice - min стоисмость
+   */
   var noticeTypeAppartHandler = function () {
     var priceValue = TYPE_PROPERTIES[noticeType.querySelector('option:checked').value];
     noticePrice.min = priceValue.minPrice;
@@ -104,6 +113,9 @@
     return noticePrice;
   };
 
+  /**
+   * Обработчик ошибки ввода цены
+   */
   var noticePriceInvalidHandler = function () {
     if (noticePrice.validity.valueMissing) {
       errorStyle('', noticePrice);
@@ -116,6 +128,9 @@
     }
   };
 
+  /**
+   * Обработчик соответствия количества комнат количеству гостей
+   */
   var inputRoomsAndGuestsHandler = function () {
     if (noticeRoomNumber.value === '100' && noticeRoomCapacity.value !== '0') {
       errorStyle('Не соответствие количества комнат количеству гостей', noticeRoomNumber);
