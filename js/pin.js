@@ -1,30 +1,26 @@
 'use strict';
 
 (function () {
-  var PIN_HEIGHT = 40;
-  var PIN_WIDTH = 70;
+
   var mapPinsArr = document.querySelector('.map__pins');
   /**
    * Создает пин на основе шаблона
    * @param {Object} pin
    */
-  window.createMapPins = function (pin) {
-    var mapPins = document.querySelector('.map__pins');
+  window.generatePins = function (pin) {
     var fragmentMapPins = document.createDocumentFragment();
-    for (var i = 0; i < window.data.QUANTITY_ADS_CARD; i++) {
+    for (var i = 0; i < pin.length; i++) {
       var newMapPin = document.createElement('button');
       newMapPin.className = 'map__pin';
-      newMapPin.style.left = (pin[i].location.x - PIN_WIDTH / 2) + 'px';
-      newMapPin.style.top = (pin[i].location.y - PIN_HEIGHT) + 'px';
+      newMapPin.style.left = (pin[i].location.x - window.constants.PIN_WIDTH / 2) + 'px';
+      newMapPin.style.top = (pin[i].location.y - window.constants.PIN_HEIGHT) + 'px';
       newMapPin.innerHTML = '<img src="' + pin[i].author.avatar + '" width="40" height="40" draggable="false" pin-id="' + i + '">';
-      newMapPin.setAttribute('offer-id', i);
-      newMapPin.style.display = 'none';
+      newMapPin.setAttribute('pin-id', i);
       fragmentMapPins.appendChild(newMapPin);
     }
-    mapPins.appendChild(fragmentMapPins);
+    mapPinsArr.appendChild(fragmentMapPins);
   };
 
-  var articles = window.data.getGenerateDataArticle();
   /**
    * Функция показывает соответствующее объявление нажатому пину
    * @param {*} evt
@@ -32,9 +28,9 @@
   var mapPinClickHandler = function (evt) {
     var target = evt.target;
     if (target.getAttribute('pin-id')) {
-      var offerId = target.getAttribute('pin-id');
+      var pinId = target.getAttribute('pin-id');
       window.card.closeMapCard();
-      window.card.createMapCard(articles[offerId]);
+      window.card.createMapCard(window.data[pinId]);
     }
   };
 
@@ -43,12 +39,11 @@
    * @param {*} evt
    */
   var mapPinPressEnter = function (evt) {
-    if (evt.keyCode === window.data.KEYCODE_ENTER) {
+    if (evt.keyCode === window.constants.KEYCODE_ENTER) {
       mapPinClickHandler(evt);
     }
   };
 
   mapPinsArr.addEventListener('click', mapPinClickHandler);
   mapPinsArr.addEventListener('keydown', mapPinPressEnter);
-  window.createMapPins(window.data.getGenerateDataArticle());
 })();
