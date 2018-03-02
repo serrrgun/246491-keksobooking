@@ -5,6 +5,7 @@
   var mainPin = document.querySelector('.map__pin--main');
   var map = document.querySelector('.map');
   var addressInput = document.querySelector('#address');
+  var form = document.querySelector('.notice__form');
   var isDataLoad = false;
 
   var limits = {
@@ -20,21 +21,31 @@
     addressInput.value = PinX + ', ' + PinY;
   };
 
+  for (var i = 0; i < form.elements.length; i++) {
+    form.elements[i].disabled = true;
+  }
+
   /**
    * Функция активирует форму, карту, пины на карте при нажатии на главный пин
+   *  + сортировка объявлений
    */
   var mainPinUpHandler = function () {
-    document.querySelector('.map').classList.remove('map--faded');
-    document.querySelector('.notice__form').classList.remove('notice__form--disabled');
-    document.querySelector('.notice__form').elements.disabled = false;
+    map.classList.remove('map--faded');
+    form.classList.remove('notice__form--disabled');
+    for (i = 0; i < form.elements.length; i++) {
+      form.elements[i].disabled = false;
+    }
     getPositionPin();
     if (isDataLoad === false) {
       window.backend.load(function (variant) {
         window.data = variant;
-        window.generatePins(window.data);
+        window.filteredOffers = window.data.slice(0, 5);
+        window.pin.generatePins(window.filteredOffers);
       }, window.backend.errorHandler);
     } else {
-      window.generatePins(window.data);
+      window.pin.removePins();
+      window.filteredOffers = window.data.slice(0, 5);
+      window.pin.generatePins(window.filteredOffers);
     }
     isDataLoad = true;
   };

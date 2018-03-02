@@ -25,6 +25,8 @@
     },
     URL_GET: 'https://js.dump.academy/keksobooking/data',
     URL_UPLOAD: 'https://js.dump.academy/keksobooking',
-    TIMEOUT: 10000
+    TIMEOUT: 10000,
+    INTERVAL_DEBOUNCE: 500,
+    SET_INTERVAL: 10000
   };
 })();
