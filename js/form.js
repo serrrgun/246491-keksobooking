@@ -5,7 +5,6 @@
 
   var map = document.querySelector('.map');
   var mapPinMain = document.querySelector('.map__pin--main');
-  var mapPins = document.querySelector('.map__pins');
   var accommodationType = document.querySelector('#type');
   var accommodationPrice = document.querySelector('#price');
   var timeIn = document.querySelector('#timein');
@@ -14,6 +13,7 @@
   var roomCapacity = document.querySelector('#capacity');
   var noticeForm = document.querySelector('.notice__form');
   var formAddress = document.querySelector('#address');
+  var formReset = document.querySelector('.form__reset');
 
   var pinCenterX = mapPinMain.offsetTop + window.constants.MAIN_PIN_WIDTH / 2;
   var pinCenterY = mapPinMain.offsetLeft + window.constants.MAIN_PIN_HEIGHT / 2;
@@ -64,6 +64,28 @@
 
   syncRoomsGuests(roomNumber.value);
 
+  var formClear = function () {
+    noticeForm.reset();
+
+    syncRoomsGuests(roomNumber.value);
+
+    map.classList.add('map--faded');
+    noticeForm.classList.add('notice__form--disabled');
+
+    for (var i = 0; i < noticeForm.elements.length; i++) {
+      noticeForm.elements[i].disabled = true;
+    }
+
+    window.pin.removePins();
+
+    mapPinMain.style.display = 'block';
+    mapPinMain.style.left = '50%';
+    mapPinMain.style.top = '50%';
+
+    formAddress.value = pinCenterX + ', ' + pinCenterY;
+    window.card.closeMapCard();
+  };
+
   roomNumber.addEventListener('change', function (evt) {
     var target = evt.target;
     syncRoomsGuests(target.value);
@@ -74,26 +96,11 @@
   noticeForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     window.backend.upload(new FormData(noticeForm), function () {
-      noticeForm.reset();
-      syncRoomsGuests(roomNumber.value);
-      map.classList.add('map--faded');
-      noticeForm.classList.add('notice__form--disabled');
-      noticeForm.elements.disabled = true;
-      var mapPinsElements = mapPins.children;
-
-      for (var i = mapPinsElements.length - 1; i >= 0; i--) {
-        if (mapPinsElements[i].hasAttribute('pin-id')) {
-          mapPins.removeChild(mapPinsElements[i]);
-        }
-      }
-
-      mapPinMain.style.display = 'block';
-      mapPinMain.style.left = '50%';
-      mapPinMain.style.top = '50%';
-
-      formAddress.value = pinCenterX + ', ' + pinCenterY;
-      window.card.closeMapCard();
-
+      formClear();
     }, window.backend.errorHandler);
+  });
+
+  formReset.addEventListener('click', function () {
+    formClear();
   });
 })();
