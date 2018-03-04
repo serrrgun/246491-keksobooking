@@ -16,9 +16,9 @@
   };
 
   var getPositionPin = function () {
-    var PinX = mainPin.offsetLeft + window.constants.MAIN_PIN_HEIGHT;
-    var PinY = mainPin.offsetTop + Math.floor(window.constants.MAIN_PIN_WIDTH / 2);
-    addressInput.value = PinX + ', ' + PinY;
+    var pinX = mainPin.offsetLeft + window.constants.MAIN_PIN_HEIGHT;
+    var pinY = mainPin.offsetTop + Math.floor(window.constants.MAIN_PIN_WIDTH / 2);
+    addressInput.value = pinX + ', ' + pinY;
   };
 
   for (var i = 0; i < form.elements.length; i++) {
