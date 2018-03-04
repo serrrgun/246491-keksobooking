@@ -49,19 +49,19 @@
   var housingFeatures = document.querySelector('#housing-features');
   var checkboxFeatures = housingFeatures.querySelectorAll('input[type="checkbox"]');
 
-  var byHouseType = function (variant) {
+  var filtersByHouseType = function (variant) {
     return housingType.value === 'any' ? true : housingType.value === variant.offer.type;
   };
 
-  var byRooms = function (variant) {
+  var filtersByRooms = function (variant) {
     return housingRooms.value === 'any' ? true : +housingRooms.value === variant.offer.rooms;
   };
 
-  var byGuests = function (variant) {
+  var filtersByGuests = function (variant) {
     return housingGuests.value === 'any' ? true : +housingGuests.value === variant.offer.guests;
   };
 
-  var byPrice = function (variant) {
+  var filtersByPrice = function (variant) {
     switch (housingPrice.value) {
       case 'low':
         return variant.offer.price < 10000;
@@ -74,7 +74,7 @@
     }
   };
 
-  var byFeatures = function (variant) {
+  var filtersByFeatures = function (variant) {
     var checkedFeatures = [];
     for (var i = 0; i < checkboxFeatures.length; i++) {
       if (checkboxFeatures[i].checked) {
@@ -89,11 +89,11 @@
 
   var filterPins = function () {
     window.pin.removePins();
-    window.filteredOffers = window.data.filter(byHouseType)
-        .filter(byRooms)
-        .filter(byPrice)
-        .filter(byGuests)
-        .filter(byFeatures)
+    window.filteredOffers = window.data.filter(filtersByHouseType)
+        .filter(filtersByRooms)
+        .filter(filtersByPrice)
+        .filter(filtersByGuests)
+        .filter(filtersByFeatures)
         .slice(0, 5);
     window.card.closeMapCard();
     debounce(window.pin.generatePins(window.filteredOffers));
