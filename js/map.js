@@ -39,12 +39,12 @@
     if (isDataLoad === false) {
       window.backend.load(function (variant) {
         window.data = variant;
-        window.filteredOffers = window.data.slice(0, 5);
+        window.filteredOffers = window.data.slice(0, window.constants.LENGTH_ARRAY);
         window.pin.generatePins(window.filteredOffers);
       }, window.backend.errorHandler);
     } else {
       window.pin.removePins();
-      window.filteredOffers = window.data.slice(0, 5);
+      window.filteredOffers = window.data.slice(0, window.constants.LENGTH_ARRAY);
       window.pin.generatePins(window.filteredOffers);
     }
     isDataLoad = true;

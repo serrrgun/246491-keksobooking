@@ -68,11 +68,11 @@
   var filtersByPrice = function (variant) {
     switch (housingPrice.value) {
       case 'low':
-        return variant.offer.price < 10000;
+        return variant.offer.price < window.constants.PRICE_MIN;
       case 'middle':
-        return (variant.offer.price >= 10000) && (variant.offer.price <= 50000);
+        return (variant.offer.price >= window.constants.PRICE_MIN) && (variant.offer.price <= window.constants.PRICE_MAX);
       case 'high':
-        return variant.offer.price > 50000;
+        return variant.offer.price > window.constants.PRICE_MAX;
       default:
         return true;
     }
@@ -102,7 +102,7 @@
   var filterPins = function () {
     window.pin.removePins();
     window.filteredOffers = window.data.filter(allFilters)
-        .slice(0, 5);
+        .slice(0, window.constants.LENGTH_ARRAY);
     window.card.closeMapCard();
     debounce(window.pin.generatePins(window.filteredOffers));
   };
