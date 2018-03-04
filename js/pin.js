@@ -114,7 +114,7 @@
     if (target.getAttribute('pin-id')) {
       var pinId = target.getAttribute('pin-id');
       window.card.closeMapCard();
-      window.card.createMapCard(window.data[pinId]);
+      window.card.createMapCard(window.filteredOffers[pinId]);
     }
   };
 
