@@ -130,12 +130,12 @@
    * Функция показывает карточку объявления при нажатии на Enter
    * @param {*} evt
    */
-  var mapPinPressEnter = function (evt) {
+  var mapPinPressEnterHandler = function (evt) {
     if (evt.keyCode === window.constants.KEYCODE_ENTER) {
       mapPinClickHandler(evt);
     }
   };
 
   mapPinsArr.addEventListener('click', mapPinClickHandler);
-  mapPinsArr.addEventListener('keydown', mapPinPressEnter);
+  mapPinsArr.addEventListener('keydown', mapPinPressEnterHandler);
 })();
