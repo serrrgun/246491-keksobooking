@@ -13,22 +13,26 @@
       var fragmentMapPins = document.createDocumentFragment();
       for (var i = 0; i < pins.length; i++) {
         var newMapPin = document.createElement('button');
-        newMapPin.className = 'map__pin';
+        var image = document.createElement('img');
+        newMapPin.classList.add('map__pin');
         newMapPin.style.left = (pins[i].location.x - window.constants.PIN_WIDTH / 2) + 'px';
         newMapPin.style.top = (pins[i].location.y - window.constants.PIN_HEIGHT) + 'px';
-        newMapPin.innerHTML = '<img src="' + pins[i].author.avatar + '" width="40" height="40" draggable="false" pin-id="' + i + '">';
         newMapPin.setAttribute('pin-id', i);
+        image.src = pins[i].author.avatar;
+        image.width = 40;
+        image.height = 40;
+        image.draggable = false;
+        image.setAttribute('pin-id', i);
+        newMapPin.appendChild(image);
         fragmentMapPins.appendChild(newMapPin);
       }
       mapPinsArr.appendChild(fragmentMapPins);
     },
 
     removePins: function () {
-      var mapPinsElements = mapPinsArr.children;
-      for (var i = mapPinsElements.length - 1; i >= 0; i--) {
-        if (mapPinsElements[i].hasAttribute('pin-id')) {
-          mapPinsArr.removeChild(mapPinsElements[i]);
-        }
+      var mapPinsElements = mapPinsArr.querySelectorAll('button[pin-id]');
+      for (var i = 0; i < mapPinsElements.length; i++) {
+        mapPinsArr.removeChild(mapPinsElements[i]);
       }
     }
   };
