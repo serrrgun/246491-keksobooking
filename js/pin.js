@@ -7,16 +7,16 @@
   window.pin = {
     /**
      * Создает пин на основе шаблона
-     * @param {Object} pin
+     * @param {Object} pins
      */
-    generatePins: function (pin) {
+    generatePins: function (pins) {
       var fragmentMapPins = document.createDocumentFragment();
-      for (var i = 0; i < pin.length; i++) {
+      for (var i = 0; i < pins.length; i++) {
         var newMapPin = document.createElement('button');
         newMapPin.className = 'map__pin';
-        newMapPin.style.left = (pin[i].location.x - window.constants.PIN_WIDTH / 2) + 'px';
-        newMapPin.style.top = (pin[i].location.y - window.constants.PIN_HEIGHT) + 'px';
-        newMapPin.innerHTML = '<img src="' + pin[i].author.avatar + '" width="40" height="40" draggable="false" pin-id="' + i + '">';
+        newMapPin.style.left = (pins[i].location.x - window.constants.PIN_WIDTH / 2) + 'px';
+        newMapPin.style.top = (pins[i].location.y - window.constants.PIN_HEIGHT) + 'px';
+        newMapPin.innerHTML = '<img src="' + pins[i].author.avatar + '" width="40" height="40" draggable="false" pin-id="' + i + '">';
         newMapPin.setAttribute('pin-id', i);
         fragmentMapPins.appendChild(newMapPin);
       }
