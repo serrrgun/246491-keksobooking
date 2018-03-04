@@ -16,9 +16,9 @@
   };
 
   var getPositionPin = function () {
-    var PinX = mainPin.offsetLeft + window.constants.MAIN_PIN_HEIGHT;
-    var PinY = mainPin.offsetTop + Math.floor(window.constants.MAIN_PIN_WIDTH / 2);
-    addressInput.value = PinX + ', ' + PinY;
+    var pinX = mainPin.offsetLeft + Math.floor(window.constants.MAIN_PIN_WIDTH / 2);
+    var pinY = mainPin.offsetTop + window.constants.MAIN_PIN_HEIGHT;
+    addressInput.value = pinX + ', ' + pinY;
   };
 
   for (var i = 0; i < form.elements.length; i++) {
@@ -39,12 +39,12 @@
     if (isDataLoad === false) {
       window.backend.load(function (variant) {
         window.data = variant;
-        window.filteredOffers = window.data.slice(0, 5);
+        window.filteredOffers = window.data.slice(0, window.constants.LENGTH_ARRAY);
         window.pin.generatePins(window.filteredOffers);
       }, window.backend.errorHandler);
     } else {
       window.pin.removePins();
-      window.filteredOffers = window.data.slice(0, 5);
+      window.filteredOffers = window.data.slice(0, window.constants.LENGTH_ARRAY);
       window.pin.generatePins(window.filteredOffers);
     }
     isDataLoad = true;
@@ -59,8 +59,8 @@
     var mainPinMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
 
-      var pinY = mainPin.offsetTop + window.constants.MAIN_PIN_HEIGHT;
       var pinX = mainPin.offsetLeft + Math.floor(window.constants.MAIN_PIN_WIDTH / 2);
+      var pinY = mainPin.offsetTop + window.constants.MAIN_PIN_HEIGHT;
       addressInput.value = pinX + ', ' + pinY;
       var shift = {
         x: startCoords.x - moveEvt.clientX,

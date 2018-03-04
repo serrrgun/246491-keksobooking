@@ -31,22 +31,37 @@
       cardElement.querySelector('h4 + p + p').textContent = 'Заезд после ' + variant.offer.checkin + ', выезд до ' + variant.offer.checkout;
       cardElement.querySelector('p:last-of-type').textContent = variant.offer.description;
       cardElement.querySelector('.popup__avatar').src = variant.author.avatar;
+      cardElement.querySelector('.popup__features').textContent = '';
+      cardElement.querySelector('.popup__pictures').appendChild(window.card.renderPictures(variant.offer.photos));
+      cardElement.querySelector('.popup__features').appendChild(window.card.renderFeatures(variant.offer.features));
       map.insertBefore(cardElement, mapFilters);
-
-      window.card.removeChildren(document.querySelector('.popup__pictures'));
-      for (var i = 0; i < variant.offer.photos.length; i++) {
-        document.querySelector('.popup__pictures').innerHTML += '<li><img src="' + variant.offer.photos[i] + '" width="50" height="50"></li>';
-      }
-
-      window.card.removeChildren(document.querySelector('.popup__features'));
-      for (i = 0; i < variant.offer.features.length; i++) {
-        document.querySelector('.popup__features').innerHTML += '<li class="feature feature--' + variant.offer.features[i] + '"></li>';
-      }
 
       var closePopup = document.querySelector('.popup__close');
       closePopup.addEventListener('click', window.card.closeMapCard);
       closePopup.addEventListener('keydown', popupPressEnterHandler);
       document.addEventListener('keydown', popupPressEscHandler);
+    },
+
+    renderFeatures: function (features) {
+      var fragment = document.createDocumentFragment();
+      for (var i = 0; i < features.length; i++) {
+        var newElement = document.createElement('li');
+        newElement.className = 'feature feature--' + features[i];
+        fragment.appendChild(newElement);
+      }
+      return fragment;
+    },
+
+    renderPictures: function (photos) {
+      var fragment = document.createDocumentFragment();
+      for (var i = 0; i < photos.length; i++) {
+        var similarElement = document.querySelector('template').content.querySelector('.popup__pictures li').cloneNode(true);
+        similarElement.querySelector('img').setAttribute('src', photos[i]);
+        similarElement.querySelector('img').setAttribute('height', window.constants.HEIGHT_PICTURE);
+        similarElement.querySelector('img').setAttribute('width', window.constants.WIDTH_PICTURE);
+        fragment.appendChild(similarElement);
+      }
+      return fragment;
     },
 
     /**

@@ -7,28 +7,32 @@
   window.pin = {
     /**
      * Создает пин на основе шаблона
-     * @param {Object} pin
+     * @param {Object} pins
      */
-    generatePins: function (pin) {
+    generatePins: function (pins) {
       var fragmentMapPins = document.createDocumentFragment();
-      for (var i = 0; i < pin.length; i++) {
+      for (var i = 0; i < pins.length; i++) {
         var newMapPin = document.createElement('button');
-        newMapPin.className = 'map__pin';
-        newMapPin.style.left = (pin[i].location.x - window.constants.PIN_WIDTH / 2) + 'px';
-        newMapPin.style.top = (pin[i].location.y - window.constants.PIN_HEIGHT) + 'px';
-        newMapPin.innerHTML = '<img src="' + pin[i].author.avatar + '" width="40" height="40" draggable="false" pin-id="' + i + '">';
+        var image = document.createElement('img');
+        newMapPin.classList.add('map__pin');
+        newMapPin.style.left = (pins[i].location.x - window.constants.PIN_WIDTH / 2) + 'px';
+        newMapPin.style.top = (pins[i].location.y - window.constants.PIN_HEIGHT) + 'px';
         newMapPin.setAttribute('pin-id', i);
+        image.src = pins[i].author.avatar;
+        image.width = 40;
+        image.height = 40;
+        image.draggable = false;
+        image.setAttribute('pin-id', i);
+        newMapPin.appendChild(image);
         fragmentMapPins.appendChild(newMapPin);
       }
       mapPinsArr.appendChild(fragmentMapPins);
     },
 
     removePins: function () {
-      var mapPinsElements = mapPinsArr.children;
-      for (var i = mapPinsElements.length - 1; i >= 0; i--) {
-        if (mapPinsElements[i].hasAttribute('pin-id')) {
-          mapPinsArr.removeChild(mapPinsElements[i]);
-        }
+      var mapPinsElements = mapPinsArr.querySelectorAll('button[pin-id]');
+      for (var i = 0; i < mapPinsElements.length; i++) {
+        mapPinsArr.removeChild(mapPinsElements[i]);
       }
     }
   };
@@ -49,32 +53,32 @@
   var housingFeatures = document.querySelector('#housing-features');
   var checkboxFeatures = housingFeatures.querySelectorAll('input[type="checkbox"]');
 
-  var byHouseType = function (variant) {
+  var filtersByHouseType = function (variant) {
     return housingType.value === 'any' ? true : housingType.value === variant.offer.type;
   };
 
-  var byRooms = function (variant) {
+  var filtersByRooms = function (variant) {
     return housingRooms.value === 'any' ? true : +housingRooms.value === variant.offer.rooms;
   };
 
-  var byGuests = function (variant) {
+  var filtersByGuests = function (variant) {
     return housingGuests.value === 'any' ? true : +housingGuests.value === variant.offer.guests;
   };
 
-  var byPrice = function (variant) {
+  var filtersByPrice = function (variant) {
     switch (housingPrice.value) {
       case 'low':
-        return variant.offer.price < 10000;
+        return variant.offer.price < window.constants.PRICE_MIN;
       case 'middle':
-        return (variant.offer.price >= 10000) && (variant.offer.price <= 50000);
+        return (variant.offer.price >= window.constants.PRICE_MIN) && (variant.offer.price <= window.constants.PRICE_MAX);
       case 'high':
-        return variant.offer.price > 50000;
+        return variant.offer.price > window.constants.PRICE_MAX;
       default:
         return true;
     }
   };
 
-  var byFeatures = function (variant) {
+  var filtersByFeatures = function (variant) {
     var checkedFeatures = [];
     for (var i = 0; i < checkboxFeatures.length; i++) {
       if (checkboxFeatures[i].checked) {
@@ -87,14 +91,18 @@
     return itsFeature;
   };
 
+  var allFilters = function (variant) {
+    return filtersByHouseType(variant) &&
+           filtersByRooms(variant) &&
+           filtersByGuests(variant) &&
+           filtersByPrice(variant) &&
+           filtersByFeatures(variant);
+  };
+
   var filterPins = function () {
     window.pin.removePins();
-    window.filteredOffers = window.data.filter(byHouseType)
-        .filter(byRooms)
-        .filter(byPrice)
-        .filter(byGuests)
-        .filter(byFeatures)
-        .slice(0, 5);
+    window.filteredOffers = window.data.filter(allFilters)
+        .slice(0, window.constants.LENGTH_ARRAY);
     window.card.closeMapCard();
     debounce(window.pin.generatePins(window.filteredOffers));
   };
@@ -114,7 +122,7 @@
     if (target.getAttribute('pin-id')) {
       var pinId = target.getAttribute('pin-id');
       window.card.closeMapCard();
-      window.card.createMapCard(window.data[pinId]);
+      window.card.createMapCard(window.filteredOffers[pinId]);
     }
   };
 
@@ -122,12 +130,12 @@
    * Функция показывает карточку объявления при нажатии на Enter
    * @param {*} evt
    */
-  var mapPinPressEnter = function (evt) {
+  var mapPinPressEnterHandler = function (evt) {
     if (evt.keyCode === window.constants.KEYCODE_ENTER) {
       mapPinClickHandler(evt);
     }
   };
 
   mapPinsArr.addEventListener('click', mapPinClickHandler);
-  mapPinsArr.addEventListener('keydown', mapPinPressEnter);
+  mapPinsArr.addEventListener('keydown', mapPinPressEnterHandler);
 })();

@@ -3,8 +3,8 @@
 (function () {
   window.constants = {
 
-    TOP_LIMIT: 200,
-    BOTTOM_LIMIT: 700,
+    TOP_LIMIT: 150,
+    BOTTOM_LIMIT: 500,
     KEYCODE_ENTER: 13,
     KEYCODE_ESC: 27,
     PIN_HEIGHT: 40,
@@ -27,6 +27,11 @@
     URL_UPLOAD: 'https://js.dump.academy/keksobooking',
     TIMEOUT: 10000,
     INTERVAL_DEBOUNCE: 500,
-    SET_INTERVAL: 10000
+    SET_INTERVAL: 10000,
+    WIDTH_PICTURE: 50,
+    HEIGHT_PICTURE: 50,
+    LENGTH_ARRAY: 5,
+    PRICE_MIN: 10000,
+    PRICE_MAX: 50000
   };
 })();
