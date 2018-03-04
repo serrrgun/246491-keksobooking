@@ -3,8 +3,8 @@
 (function () {
   window.constants = {
 
-    TOP_LIMIT: 200,
-    BOTTOM_LIMIT: 700,
+    TOP_LIMIT: 150,
+    BOTTOM_LIMIT: 500,
     KEYCODE_ENTER: 13,
     KEYCODE_ESC: 27,
     PIN_HEIGHT: 40,
