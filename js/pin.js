@@ -91,13 +91,17 @@
     return itsFeature;
   };
 
+  var allFilters = function (variant) {
+    return filtersByHouseType(variant) &&
+           filtersByRooms(variant) &&
+           filtersByGuests(variant) &&
+           filtersByPrice(variant) &&
+           filtersByFeatures(variant);
+  };
+
   var filterPins = function () {
     window.pin.removePins();
-    window.filteredOffers = window.data.filter(filtersByHouseType)
-        .filter(filtersByRooms)
-        .filter(filtersByPrice)
-        .filter(filtersByGuests)
-        .filter(filtersByFeatures)
+    window.filteredOffers = window.data.filter(allFilters)
         .slice(0, 5);
     window.card.closeMapCard();
     debounce(window.pin.generatePins(window.filteredOffers));
