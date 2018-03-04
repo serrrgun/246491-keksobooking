@@ -49,18 +49,14 @@
 
     errorHandler: function (errorMessage) {
       var node = document.createElement('div');
-
+      node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red; color: white; border: 2px solid red; padding: 40px;';
       node.style.position = 'fixed';
-      node.style.left = '50%';
-      node.style.top = '50%';
-      node.style.fontSize = '50px';
-      node.style.borderRadius = '50px';
-      node.style = 'z-index: 100; ' +
-        'margin: 0 auto; ' +
-        'text-align: center;' +
-        'background-color: white;' +
-        'border: 2px solid red' +
-        'width: 300px';
+      node.style.width = '30vw';
+      node.style.left = '32%';
+      node.style.top = '17vw';
+      node.style.fontSize = '30px';
+      node.style.borderRadius = '5px';
+      node.style.transform = 'translate(-50%; -50%)';
 
       node.textContent = errorMessage;
       document.body.insertAdjacentElement('afterbegin', node);
