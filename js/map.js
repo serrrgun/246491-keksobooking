@@ -16,8 +16,8 @@
   };
 
   var getPositionPin = function () {
-    var pinX = mainPin.offsetLeft + window.constants.MAIN_PIN_HEIGHT;
-    var pinY = mainPin.offsetTop + Math.floor(window.constants.MAIN_PIN_WIDTH / 2);
+    var pinX = mainPin.offsetLeft + Math.floor(window.constants.MAIN_PIN_WIDTH / 2);
+    var pinY = mainPin.offsetTop + window.constants.MAIN_PIN_HEIGHT;
     addressInput.value = pinX + ', ' + pinY;
   };
 
@@ -59,8 +59,8 @@
     var mainPinMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
 
-      var pinY = mainPin.offsetTop + window.constants.MAIN_PIN_HEIGHT;
       var pinX = mainPin.offsetLeft + Math.floor(window.constants.MAIN_PIN_WIDTH / 2);
+      var pinY = mainPin.offsetTop + window.constants.MAIN_PIN_HEIGHT;
       addressInput.value = pinX + ', ' + pinY;
       var shift = {
         x: startCoords.x - moveEvt.clientX,
