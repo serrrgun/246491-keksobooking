@@ -53,19 +53,19 @@
   var housingFeatures = document.querySelector('#housing-features');
   var checkboxFeatures = housingFeatures.querySelectorAll('input[type="checkbox"]');
 
-  var filtersByHouseType = function (variant) {
+  var filterByHouseType = function (variant) {
     return housingType.value === 'any' ? true : housingType.value === variant.offer.type;
   };
 
-  var filtersByRooms = function (variant) {
+  var filterByRooms = function (variant) {
     return housingRooms.value === 'any' ? true : +housingRooms.value === variant.offer.rooms;
   };
 
-  var filtersByGuests = function (variant) {
+  var filterByGuests = function (variant) {
     return housingGuests.value === 'any' ? true : +housingGuests.value === variant.offer.guests;
   };
 
-  var filtersByPrice = function (variant) {
+  var filterByPrice = function (variant) {
     switch (housingPrice.value) {
       case 'low':
         return variant.offer.price < window.constants.PRICE_MIN;
@@ -78,7 +78,7 @@
     }
   };
 
-  var filtersByFeatures = function (variant) {
+  var filterByFeatures = function (variant) {
     var checkedFeatures = [];
     for (var i = 0; i < checkboxFeatures.length; i++) {
       if (checkboxFeatures[i].checked) {
@@ -92,11 +92,11 @@
   };
 
   var allFilters = function (variant) {
-    return filtersByHouseType(variant) &&
-           filtersByRooms(variant) &&
-           filtersByGuests(variant) &&
-           filtersByPrice(variant) &&
-           filtersByFeatures(variant);
+    return filterByHouseType(variant) &&
+           filterByRooms(variant) &&
+           filterByGuests(variant) &&
+           filterByPrice(variant) &&
+           filterByFeatures(variant);
   };
 
   var filterPins = function () {
